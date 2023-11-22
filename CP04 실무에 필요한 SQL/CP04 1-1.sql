@@ -1,51 +1,43 @@
--- CP04 ì‹¤ë¬´ì— í•„ìš”í•œ SQL
--- 1. ìì£¼ ì“°ì´ëŠ” SQL ë¬¸ë²•
+USE EDU
 
-
--- 1) ë¹„êµ ì—°ì‚°ì
--- [Member] í…Œì´ë¸”ì˜ [addr]ì´ 'seoul'ì´ ì•„ë‹Œ ê°’ë§Œ ì¡°íšŒí•˜ì—¬ë¼.
+--1. ºñ±³ ¿¬»êÀÚ
+--[Member] Å×ÀÌºí »ç¿ë
+--(1-1) [addr]ÀÌ 'seoul'ÀÌ ¾Æ´Ñ °ª¸¸ Á¶È¸ÇÏ¿©¶ó.
 SELECT *
 	FROM [Member]
 	WHERE addr <> 'seoul'
 
-
--- 2) ë…¼ë¦¬ ì—°ì‚°ì
--- [Member] í…Œì´ë¸”ì˜ [gender]ê°€ 'man' ë° [ageband]ê°€ 20ì¸ ê°’ë§Œ ì¡°íšŒí•˜ì—¬ë¼.
+--2.³í¸® ¿¬»êÀÚ
+--[Member] Å×ÀÌºí »ç¿ë
+--(2-1) [gender]°¡ 'man' ¹× 'ageband'°¡ 20ÀÎ °ª¸¸ Á¶È¸ÇÏ¿©¶ó.
 SELECT *
 	FROM [Member]
-	WHERE gender = 'man'
-		AND ageband = 20
+	WHERE gender = 'man' AND ageband = 20
 
--- [Member] í…Œì´ë¸”ì˜ [gender]ê°€ 'man' ë° [ageband]ê°€ 20ì¸ ê°’ê³¼ ë˜ëŠ” [addr]ì´ 'seoul'ì¸ ê°’ì„ ì¡°íšŒí•˜ì—¬ë¼.
+--(2-2) [gender]°¡ 'man' ¹× [ageband]°¡ 20ÀÎ °ª°ú ¶Ç´Â [addr]ÀÌ 'seoul'ÀÎ °ªÀ» Á¶È¸ÇÏ¿©¶ó.
 SELECT *
 	FROM [Member]
 	WHERE (gender = 'man' AND ageband = 20)
-		OR (addr = 'seoul')
+		OR addr = 'seoul'
 
-
--- 3) íŠ¹ìˆ˜ ì—°ì‚°ì
--- [Member] í…Œì´ë¸”ì—ì„œ [ageband]ê°€ 20~40ì¸ ê°’ë§Œ ì¡°íšŒí•˜ì—¬ë¼.
+--3. Æ¯¼ö ¿¬»êÀÚ
+--[Member] Å×ÀÌºí »ç¿ë
+--(3-1) [ageband]°¡ 20-40 »çÀÌ °ª¸¸ Á¶È¸ÇÏ¿©¶ó.
 SELECT *
 	FROM [Member]
 	WHERE ageband BETWEEN 20 AND 40
 
--- [Member] í…Œì´ë¸”ì—ì„œ [addr]ì´ 'ae'ë¥¼ í¬í•¨í•˜ëŠ” ê°’ë§Œ ì¡°íšŒí•˜ì—¬ë¼.
--- ë‚´ê°€ ì§  ì½”ë“œ
-SELECT *
-	FROM [Member]
-	WHERE 'ae' IN (addr)
-
--- ëª¨ë²” ë‹µì•ˆ
+--(3-2) [addr]ÀÌ 'ae'¸¦ Æ÷ÇÔÇÏ´Â °ª¸¸ Á¶È¸ÇÏ¿©¶ó.
 SELECT *
 	FROM [Member]
 	WHERE addr LIKE '%ae%'
 
-
--- 4) ì‚°ìˆ  ì—°ì‚°ì
--- [Order] í…Œì´ë¸”ì—ì„œ [sales_amt]ë¥¼ 0.1ë¡œ ê³±ì…ˆí•˜ì—¬ë¼. (ì—´ ì´ë¦„ : fees)
-SELECT sales_amt * 0.1 AS fees
+--4. »ê¼ú ¿¬»êÀÚ
+--[Order] Å×ÀÌºí »ç¿ë
+--(4-1) [sales_amt]¸¦ 0.1À» °ö¼ÀÇÏ¿©¶ó. (ÄÃ·³¸íÀº fees)
+SELECT *, sales_amt*0.1 AS fees
 	FROM [Order]
-	
--- [Order] í…Œì´ë¸”ì—ì„œ [sales_amt]ì— [sales_amt]ë¥¼ 0.1ë¡œ ê³±ì…ˆí•œ ê°’ì„ ëº„ì…ˆí•˜ì—¬ë¼. (ì—´ ì´ë¦„ : Excluding_fees)
-SELECT sales_amt - (sales_amt * 0.1) AS Excluding_fees
+
+--(4-2) [sales_amt]¿¡ [sales_amt]¸¦ 0.1À» °ö¼ÀÇÑ °ªÀ» »¬¼ÀÇÏ¿©¶ó. (ÄÃ·³¸íÀº Excluding_fees)
+SELECT *, (sales_amt - sales_amt*0.1) AS Excluding_fees
 	FROM [Order]
